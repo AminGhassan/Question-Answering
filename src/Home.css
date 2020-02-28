@@ -1,0 +1,15 @@
+.drop{
+	width: 18em;
+	appearance:none;
+	padding: 5px;
+	cursor: pointer;
+	text-transform: uppercase;
+}
+
+
+
+.drop:hover {
+	border-color: #888;
+}
+
+
