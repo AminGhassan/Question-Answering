@@ -12,14 +12,18 @@ class Question extends React.Component {
     super(props);
     this.state = {
     questions: [],
-    qwe:{}
+    types :[]
 	};
 	this.getRefsFromChild = this.getRefsFromChild.bind(this);
   }
     getRefsFromChild(childRefs){
-    // you can get your requested value here, you can either use state/props/ or whatever you like based on your need case by case
-    this.state.questions.push(childRefs.question.value);
-    console.log("MA3RAFSH",this.state)
+    // you can get your requested value here, you can either use state/props/ or whatever you like based on your need case by case 
+      let questions = this.state.questions;
+      questions.push(childRefs.question.value); 
+      this.setState({ questions: questions });
+      let types =this.state.types;
+      types.push("Essay");
+      this.setState({types:types});
     }
 
 
@@ -41,7 +45,7 @@ class Question extends React.Component {
           </Tab>
         </Tabs>
 
-        <QuestionsTable quests={this.state.questions} />
+        <QuestionsTable types={this.state.types} quests={this.state.questions} />
       </div>
     );
   }

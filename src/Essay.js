@@ -8,6 +8,7 @@ class Essay extends React.Component {
   }
   tet=()=> {
     this.props.addTextArea(this.refs);
+    this.refs.question.value="";
   }
   render() {
     return (
