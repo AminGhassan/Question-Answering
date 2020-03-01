@@ -7,6 +7,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import './Essay.css';
 
 const useStyles = makeStyles({
     table: {
@@ -48,17 +49,18 @@ const QuestionsTable =(props)=>
                             {
                                 addChoice()
                             }
-                      
+                            <TableCell align="right">X</TableCell>
+
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map(row => (
+                        {rows.map((row,index) => (
                             <TableRow key={row.number}>
                                 <TableCell component="th" scope="row">
                                     {row.number}
                                 </TableCell>
                                 <TableCell align="right">{row.type}</TableCell>
-                                <TableCell align="right">{row.question}</TableCell>
+                                <TableCell align="right" >{row.question}</TableCell>
                                 <TableCell align="right">{row.numberOfChoices}</TableCell>
                                 {
                                     row.choices.map(choice=>
@@ -66,6 +68,11 @@ const QuestionsTable =(props)=>
                                             return(<TableCell align="right">{choice.ch}</TableCell>  )
                                         })
                                 }
+                                <TableCell align="right"><button className="Submit br3 shadow-5 dim" onClick={()=>
+                                {
+                                    props.del(index)
+                                }}>Delete</button></TableCell>
+
                             </TableRow>
                         ))}
                     </TableBody>

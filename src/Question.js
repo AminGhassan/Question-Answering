@@ -18,7 +18,8 @@ class Question extends React.Component {
     choices:[{ch:""}],
     items:[],
 	};
-	this.getRefsFromChild = this.getRefsFromChild.bind(this);
+  this.getRefsFromChild = this.getRefsFromChild.bind(this);
+  this.handleDelete=this.handleDelete.bind(this);
   }
     getRefsFromChild(childRefs){
     // you can get your requested value here, you can either use state/props/ or whatever you like based on your need case by case 
@@ -90,7 +91,11 @@ class Question extends React.Component {
         choices:newChoices,
       })
     }
-
+    handleDelete(index){
+      let items=this.state.items;
+      items.splice(index,1);
+      this.setState({items:items});
+    }
 
   render() {
     return (
@@ -117,7 +122,7 @@ class Question extends React.Component {
           </Tab>
         </Tabs>
 
-        <QuestionsTable types={this.state.types} quests={this.state.questions} items={this.state.items} />
+        <QuestionsTable types={this.state.types} quests={this.state.questions} items={this.state.items} del={this.handleDelete} />
       </div>
     );
   }
