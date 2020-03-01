@@ -11,6 +11,11 @@ class Question extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+    question:"",
+    numberofChoices:"three",
+    choice:"",
+    choices:[{ch:""}],
+    items:[],
     questions: [],
     qwe:{}
 	};
@@ -22,6 +27,53 @@ class Question extends React.Component {
     console.log("MA3RAFSH",this.state)
     }
 
+    handleFormSubmit=(e)=>
+    {
+      e.preventDefault();
+
+      let items=[...this.state.items];
+
+      items.push({
+        question:this.state.question,
+        numberofChoices:this.state.numberofChoices,
+        choices:[...this.state.choices],
+      });
+
+      this.setState({
+        items,
+        question:"",
+        choices:[],
+        choice:""
+      });
+
+    };
+
+    handleInputChange=(e)=>
+    {
+      let input=e.target;
+      let name=e.target.name;
+      let value=input.value;
+
+      this.setState({
+        [name]:value,
+      });
+    }
+
+    handleChoiceChange=idx=>event =>
+    {
+      if(idx+1>this.state.choices.length)
+        this.state.choices.push({ch:""})
+
+      const newChoices=this.state.choices.map((choice,sidx)=>
+      {
+        if(idx!=sidx) return choice;
+        return {...choice,ch:event.target.value}
+      })
+      this.setState({
+        choices:newChoices,
+      })
+    }
+
 
   render() {
     return (
@@ -31,7 +83,13 @@ class Question extends React.Component {
             <Essay addTextArea={this.getRefsFromChild} />
           </Tab>
           <Tab eventKey="mcq" title="Mcq">
-            <Mcq />
+            <Mcq handleFormSubmit={this.handleFormSubmit}
+                 handleInputChange={this.handleInputChange}
+                 handleChoiceChange={this.handleChoiceChange}
+                 newQuestion={this.state.question}
+                 newNumberOfChoices={this.state.numberofChoices}
+                 newChoices={this.state.choices}
+            />
           </Tab>
           <Tab eventKey="t/f" title="T/F">
             <TF />
@@ -41,7 +99,10 @@ class Question extends React.Component {
           </Tab>
         </Tabs>
 
-        <QuestionsTable quests={this.state.questions} />
+        <QuestionsTable 
+        quests={this.state.questions}
+        items={this.state.items}
+        />
       </div>
     );
   }
