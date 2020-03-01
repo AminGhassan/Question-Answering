@@ -11,8 +11,12 @@ class Question extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+    question:"",
+    numberofChoices:"three",
     questions: [],
-    types :[]
+    types :[],
+    choices:[{ch:""}],
+    items:[],
 	};
 	this.getRefsFromChild = this.getRefsFromChild.bind(this);
   }
@@ -24,6 +28,67 @@ class Question extends React.Component {
       let types =this.state.types;
       types.push("Essay");
       this.setState({types:types});
+      let items=[...this.state.items]
+      items.push({
+        question:childRefs.question.value,
+        numberofChoices:"_",
+        choices:[]
+      })
+
+      this.setState({
+        items,
+        question:"",
+        choices:[],
+      });
+    }
+
+    handleFormSubmit=(e)=>
+    {
+      e.preventDefault();
+      let items=[...this.state.items];
+    
+      let types=this.state.types;
+      types.push("MCQ")
+      this.setState({types:types});
+
+      items.push({
+        question:this.state.question,
+        numberofChoices:this.state.numberofChoices,
+        choices:[...this.state.choices],
+      });
+
+      this.setState({
+        items,
+        question:"",
+        choices:[],
+      });
+
+    };
+
+    handleInputChange=(e)=>
+    {
+      let input=e.target;
+      let name=e.target.name;
+      let value=input.value;
+
+      this.setState({
+        [name]:value,
+      });
+    }
+
+    handleChoiceChange=idx=>event =>
+    {
+      if(idx+1>this.state.choices.length)
+        this.state.choices.push({ch:""})
+
+      const newChoices=this.state.choices.map((choice,sidx)=>
+      {
+        if(idx!=sidx) return choice;
+        return {...choice,ch:event.target.value}
+      })
+      this.setState({
+        choices:newChoices,
+      })
     }
 
 
@@ -35,7 +100,14 @@ class Question extends React.Component {
             <Essay addTextArea={this.getRefsFromChild} />
           </Tab>
           <Tab eventKey="mcq" title="Mcq">
-            <Mcq />
+            <Mcq 
+              handleFormSubmit={this.handleFormSubmit}
+              handleInputChange={this.handleInputChange}
+              handleChoiceChange={this.handleChoiceChange}
+              newQuestion={this.state.question}
+              newNumberOfChoices={this.state.numberofChoices}
+              newChoices={this.state.choices}
+            />
           </Tab>
           <Tab eventKey="t/f" title="T/F">
             <TF />
@@ -45,7 +117,7 @@ class Question extends React.Component {
           </Tab>
         </Tabs>
 
-        <QuestionsTable types={this.state.types} quests={this.state.questions} />
+        <QuestionsTable types={this.state.types} quests={this.state.questions} items={this.state.items} />
       </div>
     );
   }

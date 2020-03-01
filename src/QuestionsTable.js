@@ -1,5 +1,4 @@
 import React from 'react';
-import './Table.css';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -14,17 +13,27 @@ const useStyles = makeStyles({
         minWidth: 650,
     },
 });
-function createData(number, type, question) {
-    return { number, type, question };
+function createData(number, type, question,numberOfChoices,choices) {
+    return { number, type, question, numberOfChoices, choices };
 }
-
+const addChoice=()=>
+    {
+        let items=[]
+        for(let i=0;i<5;i++)
+        {
+           items.push(<TableCell align="right">{`choice number ${i+1}`}</TableCell>)
+        }
+        return items;
+    }
 const QuestionsTable =(props)=>
 { 
 
+    
         const classes = useStyles();
-        const rows = props.quests.map((question,index)=>{
+        const items=props.items;
+        const rows = items.map((item,index)=>{
             return(
-                createData(index+1, props.types[index], question)
+                createData(index+1, props.types[index], item.question,item.numberofChoices,item.choices)
             );
         });
         return(
@@ -35,6 +44,10 @@ const QuestionsTable =(props)=>
                             <TableCell>#</TableCell>
                             <TableCell align="right">Type</TableCell>
                             <TableCell align="right">Question</TableCell>
+                            <TableCell align="right">Number Of Choices</TableCell>
+                            {
+                                addChoice()
+                            }
                       
                         </TableRow>
                     </TableHead>
@@ -46,7 +59,13 @@ const QuestionsTable =(props)=>
                                 </TableCell>
                                 <TableCell align="right">{row.type}</TableCell>
                                 <TableCell align="right">{row.question}</TableCell>
-
+                                <TableCell align="right">{row.numberOfChoices}</TableCell>
+                                {
+                                    row.choices.map(choice=>
+                                        {
+                                            return(<TableCell align="right">{choice.ch}</TableCell>  )
+                                        })
+                                }
                             </TableRow>
                         ))}
                     </TableBody>
