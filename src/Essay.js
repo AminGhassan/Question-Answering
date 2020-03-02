@@ -6,7 +6,7 @@ class Essay extends React.Component {
   constructor(props) {
     super(props);
   }
-  tet=()=> {
+  handleAdd=()=> {
     this.props.addTextArea(this.refs);
     this.refs.question.value="";
   }
@@ -20,7 +20,7 @@ class Essay extends React.Component {
           placeholder="Enter you question"
         />
         <button className="Submit br3 shadow-5 dim">Submit</button>
-        <button className="Add br3 shadow-5 dim" onClick={this.tet}>
+        <button className="Add br3 shadow-5 dim" onClick={this.handleAdd}>
           Add
         </button>
       </div>

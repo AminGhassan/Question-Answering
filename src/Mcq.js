@@ -46,6 +46,7 @@ class Mcq extends React.Component{
                 value={this.props.newChoice}
                 type="text"
                 name="choice"
+                ref={i}
                 onChange={this.props.handleChoiceChange(i)}
                 >
                 </input>
@@ -58,7 +59,10 @@ class Mcq extends React.Component{
     }
     reset=()=>
     {
-        document.getElementById("MCQForm").reset();
+        console.log(this.refs);
+        for( let i=0;i<this.refs.length;i++){
+            this.refs[i].value="";
+        }
         this.setState({
             selected:3
         })

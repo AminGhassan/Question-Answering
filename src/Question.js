@@ -111,7 +111,6 @@ class Question extends React.Component {
               handleChoiceChange={this.handleChoiceChange}
               newQuestion={this.state.question}
               newNumberOfChoices={this.state.numberofChoices}
-              newChoices={this.state.choices}
             />
           </Tab>
           <Tab eventKey="t/f" title="T/F">
@@ -122,7 +121,7 @@ class Question extends React.Component {
           </Tab>
         </Tabs>
 
-        <QuestionsTable types={this.state.types} quests={this.state.questions} items={this.state.items} del={this.handleDelete} />
+        <QuestionsTable types={this.state.types} items={this.state.items} del={this.handleDelete} />
       </div>
     );
   }
